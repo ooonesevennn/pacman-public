@@ -679,7 +679,7 @@ class Game:
                         return
                     self.unmute()
                 except Exception as data:
-                    elf.unmute()
+                    self.unmute()
                     self._agentCrash(agentIndex)
                     return
             else:
