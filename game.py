@@ -630,8 +630,8 @@ class Game:
                         move_time += time.time() - start_time
                         self.unmute()
                     except Exception as data:
-                        self._agentCrash(agentIndex, quiet=False)
                         self.unmute()
+                        self._agentCrash(agentIndex, quiet=False)
                         return
                 else:
                     observation = agent.observationFunction(self.state.deepCopy())
@@ -653,8 +653,8 @@ class Game:
                     except TimeoutFunctionException:
                         print("Agent %d timed out on a single move!" % agentIndex, file=sys.stderr)
                         self.agentTimeout = True
-                        self._agentCrash(agentIndex, quiet=True)
                         self.unmute()
+                        self._agentCrash(agentIndex, quiet=True)
                         return
 
                     move_time += time.time() - start_time
@@ -665,8 +665,8 @@ class Game:
                         if self.totalAgentTimeWarnings[agentIndex] > self.rules.getMaxTimeWarnings(agentIndex):
                             print("Agent %d exceeded the maximum number of warnings: %d" % (agentIndex, self.totalAgentTimeWarnings[agentIndex]), file=sys.stderr)
                             self.agentTimeout = True
-                            self._agentCrash(agentIndex, quiet=True)
                             self.unmute()
+                            self._agentCrash(agentIndex, quiet=True)
                             return
 
                     self.totalAgentTimes[agentIndex] += move_time
@@ -674,13 +674,13 @@ class Game:
                     if self.totalAgentTimes[agentIndex] > self.rules.getMaxTotalTime(agentIndex):
                         print("Agent %d ran out of time! (time: %1.2f)" % (agentIndex, self.totalAgentTimes[agentIndex]), file=sys.stderr)
                         self.agentTimeout = True
-                        self._agentCrash(agentIndex, quiet=True)
                         self.unmute()
+                        self._agentCrash(agentIndex, quiet=True)
                         return
                     self.unmute()
                 except Exception as data:
+                    elf.unmute()
                     self._agentCrash(agentIndex)
-                    self.unmute()
                     return
             else:
                 action = agent.getAction(observation)
