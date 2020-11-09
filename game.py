@@ -581,7 +581,7 @@ class Game:
                 # the other team wins
                 print("Agent %d failed to load" % i, file=sys.stderr)
                 self.unmute()
-                self._agentCrash(i, quiet=True)
+                self._agentCrash(i, quiet=False)
                 return
             if ("registerInitialState" in dir(agent)):
                 self.mute(i)
@@ -600,8 +600,8 @@ class Game:
                             self._agentCrash(i, quiet=True)
                             return
                     except Exception as data:
-                        self._agentCrash(i, quiet=False)
                         self.unmute()
+                        self._agentCrash(i, quiet=False)
                         return
                 else:
                     agent.registerInitialState(self.state.deepCopy())
@@ -693,8 +693,8 @@ class Game:
                     self.state = self.state.generateSuccessor( agentIndex, action )
                 except Exception as data:
                     self.mute(agentIndex)
-                    self._agentCrash(agentIndex)
                     self.unmute()
+                    self._agentCrash(agentIndex)
                     return
             else:
                 self.state = self.state.generateSuccessor( agentIndex, action )
@@ -723,7 +723,7 @@ class Game:
                     self.unmute()
                 except Exception as data:
                     if not self.catchExceptions: raise
-                    self._agentCrash(agentIndex)
                     self.unmute()
+                    self._agentCrash(agentIndex)
                     return
         self.display.finish()

@@ -58,7 +58,7 @@ from game import Grid
 from game import Configuration
 from game import Agent
 from game import reconstituteGrid
-import sys, util, types, time, random, imp
+import sys, util, types, time, random
 import keyboardAgents
 
 # If you change these, you won't affect the server, so you can't cheat
@@ -906,6 +906,32 @@ def randomLayout(seed = None):
   import mazeGenerator
   return mazeGenerator.generateMaze(seed)
 
+def load_module_from_file(module_name, module_path):
+    """Loads a python module from the path of the corresponding file.
+    Args:
+        module_name (str): namespace where the python module will be loaded,
+            e.g. ``foo.bar``
+        module_path (str): path of the python file containing the module
+    Returns:
+        A valid module object
+    Raises:
+        ImportError: when the module can't be loaded
+        FileNotFoundError: when module_path doesn't exist
+    """
+    if sys.version_info[0] == 3 and sys.version_info[1] >= 5:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(module_name, module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+    elif sys.version_info[0] == 3 and sys.version_info[1] < 5:
+        import importlib.machinery
+        loader = importlib.machinery.SourceFileLoader(module_name, module_path)
+        module = loader.load_module()
+    elif sys.version_info[0] == 2:
+        import imp
+        module = imp.load_source(module_name, module_path)
+    return module
+
 import traceback
 def loadAgents(isRed, factory, textgraphics, cmdLineArgs):
   "Calls agent factories and returns lists of agents"
@@ -913,7 +939,7 @@ def loadAgents(isRed, factory, textgraphics, cmdLineArgs):
     if not factory.endswith(".py"):
       factory += ".py"
 
-    module = imp.load_source('player' + str(int(isRed)), factory)
+    module = load_module_from_file('player' + str(int(isRed)), factory)
   except (NameError, ImportError):
     print('Error: The team "' + factory + '" could not be loaded! ', file=sys.stderr)
     traceback.print_exc()
