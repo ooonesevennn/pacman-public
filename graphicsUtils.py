@@ -60,6 +60,7 @@ def begin_graphics(width=640, height=480, color=formatColor(0, 0, 0), title=None
     # Check for duplicate call
     if _root_window is not None:
         # Lose the window.
+        _root_window.update()
         _root_window.destroy()
 
     # Save the canvas size parameters
@@ -144,7 +145,7 @@ def end_graphics():
     global _root_window, _canvas, _mouse_enabled
     try:
         try:
-            sleep(1)
+            sleep(20)
             if _root_window != None:
                 _root_window.destroy()
         except SystemExit as e:

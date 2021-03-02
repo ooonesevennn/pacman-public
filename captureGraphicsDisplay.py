@@ -106,7 +106,7 @@ class InfoPane:
 
   def drawPane(self):
     self.scoreText = text( self.toScreen(0, 0  ), self.textColor, self._infoString(0,1200), "Consolas", self.fontSize, "bold")
-    self.redText = text( self.toScreen(230, 0  ), TEAM_COLORS[0], self._redScoreString(), "Consolas", self.fontSize, "bold")
+    self.redText = text( self.toScreen(430, 0  ), TEAM_COLORS[0], self._redScoreString(), "Consolas", self.fontSize, "bold")
     self.redText = text( self.toScreen(690, 0  ), TEAM_COLORS[1], self._blueScoreString(), "Consolas", self.fontSize, "bold")
 
   def _redScoreString(self):
@@ -193,8 +193,10 @@ class PacmanGraphics:
     self.drawStaticObjects(state)
     self.drawAgentObjects(state)
 
+
     # Information
     self.previousState = state
+
 
   def startGraphics(self, state):
     self.layout = state.layout
@@ -253,6 +255,7 @@ class PacmanGraphics:
     refresh()
 
   def update(self, newState):
+    start = time.time()
     agentIndex = newState._agentMoved
     agentState = newState.agentStates[agentIndex]
 
@@ -276,6 +279,9 @@ class PacmanGraphics:
     self.infoPane.updateScore(newState.score, newState.timeleft)
     if 'ghostDistances' in dir(newState):
       self.infoPane.updateGhostDistances(newState.ghostDistances)
+    now = time.time()
+    if  now - start <0.1:
+      sleep(0.1-(now - start))
 
   def make_window(self, width, height):
     grid_width = (width-1) * self.gridSize
@@ -286,7 +292,7 @@ class PacmanGraphics:
     begin_graphics(screen_width,
                    screen_height,
                    BACKGROUND_COLOR,
-                   "CS188 Pacman")
+                   "Pacman Capture The Falg")
 
   def drawPacman(self, pacman, index):
     position = self.getPosition(pacman)
@@ -335,8 +341,8 @@ class PacmanGraphics:
       print('Press any key to step forward, "q" to play')
       keys = wait_for_keys()
       if 'q' in keys:
-        self.frameTime = 0.1
-    if self.frameTime > 0.01 or self.frameTime < 0:
+        self.frameTime = 0.0001
+    if self.frameTime >= 0.0001 or self.frameTime < 0:
       start = time.time()
       fx, fy = self.getPosition(prevPacman)
       px, py = self.getPosition(pacman)

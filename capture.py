@@ -808,6 +808,8 @@ def readCommand( argv ):
                     help=default('How many episodes are training (suppresses output)'), default=0)
   parser.add_option('-c', '--catchExceptions', action='store_true', default=False,
                     help='Catch exceptions and enforce time limits')
+  parser.add_option('--frameTime', dest='frameTime', type='float',
+                    help=default('Time to delay between frames; <0 means keyboard'), default=0.001)
 
   options, otherjunk = parser.parse_args(argv)
   assert len(otherjunk) == 0, "Unrecognized options: " + str(otherjunk)
@@ -831,7 +833,7 @@ def readCommand( argv ):
     import captureGraphicsDisplay
     # Hack for agents writing to the display
     captureGraphicsDisplay.FRAME_TIME = 0
-    args['display'] = captureGraphicsDisplay.PacmanGraphics(options.red, options.blue, options.zoom, 0, capture=True)
+    args['display'] = captureGraphicsDisplay.PacmanGraphics(options.red, options.blue, options.zoom, options.frameTime, capture=True)
     import __main__
     __main__.__dict__['_display'] = args['display']
 
