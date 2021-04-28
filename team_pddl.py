@@ -31,6 +31,10 @@ from pddlstream.algorithms.search import Pddl_Domain
 from pddlstream.utils import read
 from pddlstream.language.constants import And, Equal,ForAll, print_solution, Type,TOTAL_COST,EQ, Not
 
+import sys,os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+base_folder = os.path.dirname(os.path.abspath(__file__))
+
 #################
 # Team creation #
 #################
@@ -133,7 +137,7 @@ class MixedAgent(ReflexCaptureAgent):
     """
     This is an agent that use pddl to guide the high level actions of Pacman
     """
-    domain_pddl = Pddl_Domain('pacman_bool.pddl')
+    domain_pddl = Pddl_Domain(base_folder+'/pacman_bool.pddl')
 
     def registerInitialState(self, gameState):
         self.start = gameState.getAgentPosition(self.index)
@@ -155,17 +159,34 @@ class MixedAgent(ReflexCaptureAgent):
         NEEDS TO BE CHANGED BEFORE SUBMISSION
 
         """
-        if os.path.exists('offensiveWeights.txt'):
-            with open('offensiveWeights.txt', "r") as file:
+        if os.path.exists(base_folder+'/offensiveWeights.txt'):
+            with open(base_folder+'/offensiveWeights.txt', "r") as file:
                 self.offensiveWeights = eval(file.read())
         
-        if os.path.exists('defensiveWeights.txt'):
-            with open('offensiveWeights.txt', "r") as file:
+        if os.path.exists(base_folder + '/defensiveWeights.txt'):
+            with open(base_folder+'/offensiveWeights.txt', "r") as file:
                 self.defensiveWeights = eval(file.read())
         
-        if os.path.exists('escapeWeights.txt'):
-            with open('escapeWeights.txt', "r") as file:
+        if os.path.exists(base_folder+'/escapeWeights.txt'):
+            with open(base_folder+'/escapeWeights.txt', "r") as file:
                 self.escapeWeights = eval(file.read())
+    
+    def final(self, gameState):
+        """
+        This function write weights into files after the game is over. 
+        You may want to comment (disallow) this function when submit to contest server.
+        """
+        file = open('offensiveWeights.txt', 'w')
+        file.write(str(self.weights))
+        file.close()
+
+        file = open('defensiveWeights.txt', 'w')
+        file.write(str(self.weights))
+        file.close()
+
+        file = open('escapeWeights.txt', 'w')
+        file.write(str(self.weights))
+        file.close()
     
     #------------------------------- Q-learning Functions -------------------------------
 
@@ -522,16 +543,4 @@ class MixedAgent(ReflexCaptureAgent):
         # no food found
         return None
     
-    def final(self, gameState):
-        print(self.weights)
-        file = open('offensiveWeights.txt', 'w')
-        file.write(str(self.weights))
-        file.close()
 
-        file = open('defensiveWeights.txt', 'w')
-        file.write(str(self.weights))
-        file.close()
-
-        file = open('escapeWeights.txt', 'w')
-        file.write(str(self.weights))
-        file.close()
