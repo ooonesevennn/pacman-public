@@ -164,7 +164,7 @@ class MixedAgent(ReflexCaptureAgent):
                 self.offensiveWeights = eval(file.read())
         
         if os.path.exists(base_folder + '/defensiveWeights.txt'):
-            with open(base_folder+'/offensiveWeights.txt', "r") as file:
+            with open(base_folder+'/defensiveWeights.txt', "r") as file:
                 self.defensiveWeights = eval(file.read())
         
         if os.path.exists(base_folder+'/escapeWeights.txt'):
@@ -177,15 +177,15 @@ class MixedAgent(ReflexCaptureAgent):
         You may want to comment (disallow) this function when submit to contest server.
         """
         file = open('offensiveWeights.txt', 'w')
-        file.write(str(self.weights))
+        file.write(str(self.offensiveWeights))
         file.close()
 
         file = open('defensiveWeights.txt', 'w')
-        file.write(str(self.weights))
+        file.write(str(self.defensiveWeights))
         file.close()
 
         file = open('escapeWeights.txt', 'w')
-        file.write(str(self.weights))
+        file.write(str(self.escapeWeights))
         file.close()
     
     #------------------------------- Q-learning Functions -------------------------------
