@@ -61,9 +61,9 @@ def createTeam(firstIndex, secondIndex, isRed,
     additional string-valued keyword arguments ("first" and "second" are
     such arguments in the case of this function), which will come from
     the --redOpts and --blueOpts command-line arguments to capture.py.
-    For the nightly contest, however, your team will be created without
+    For the contest, however, your team will be created without
     any extra arguments, so you should make sure that the default
-    behavior is what you want for the nightly contest.
+    behavior is what you want for the contest.
     """
     return [eval(first)(firstIndex), eval(second)(secondIndex)]
 
