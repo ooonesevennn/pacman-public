@@ -78,7 +78,6 @@ class MixedAgent(CaptureAgent):
     """
     # Default weights for q learning, if no QLWeights.txt find, we use the following weights.
     # You should add your weights for new low level planner here as well.
-    # If you have new low level planner 
     QLWeights = {
             "offensiveWeights":{'closest-food': -1, 
                                         'bias': 1, 
@@ -88,14 +87,14 @@ class MixedAgent(CaptureAgent):
             "defensiveWeights": {'numInvaders': -1000, 'onDefense': 100, 'invaderDistance': -10, 'stop': -100, 'reverse': -2},
             "escapeWeights": {'onDefense': 1000, 'enemyDistance': 30, 'stop': -100, 'distanceToHome': -20}
         }
-    QLWeightsFile = BASE_FOLDER+'/QLWeightsMyTeam.txt'
+    QLWeightsFile = BASE_FOLDER+'/QLWeightsStaffTeam.txt'
 
     # Also can use class variable to exchange information between agents.
     CURRENT_ACTION = {}
 
 
     def registerInitialState(self, gameState: GameState):
-        self.pddl_solver = pddl_solver(BASE_FOLDER+'/myTeam.pddl')
+        self.pddl_solver = pddl_solver(BASE_FOLDER+'/staffTeam.pddl')
         self.highLevelPlan: List[Tuple[Action,pddl_state]] = None # Plan is a list Action and pddl_state
         self.currentNegativeGoalStates = []
         self.currentPositiveGoalStates = []
@@ -108,7 +107,7 @@ class MixedAgent(CaptureAgent):
         self.lowLevelActionIndex = 0
 
         # REMEMBER TRUN TRAINNING TO FALSE when submit to contest server.
-        self.trainning = True # trainning mode to true will keep update weights and generate random movements by prob.
+        self.trainning = False # trainning mode to true will keep update weights and generate random movements by prob.
         self.epsilon = 0.1 #default exploration prob, change to take a random step
         self.alpha = 0.1 #default learning rate
         self.discountRate = 0.9 # default discount rate on successor state q value when update
