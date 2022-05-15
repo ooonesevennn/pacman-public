@@ -143,7 +143,7 @@ class MixedAgent(CaptureAgent):
         In the game, this function is called when its current agent's turn to move.
 
         We first pick a high-level action.
-        Then generate low-level action (up down left right wait) to achieve the high-level action.
+        Then generate low-level action ("North", "South", "East", "West", "Stop") to achieve the high-level action.
         """
 
         #-------------High Level Plan Section-------------------
