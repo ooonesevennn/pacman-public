@@ -32,10 +32,10 @@
         (enemy_medium_distance ?e - enemy ?a - current_agent) ; noisy distance return longer than 15 
         (enemy_short_distance ?e - enemy ?a - current_agent) ; noisy distance return shorter than 15 
 
-        (food_backpack_gt3 ?a - team) ; more than 3 food in backpack
-        (food_backpack_gt5 ?a - team)  ; more than 5 food in backpack
-        (food_backpack_gt10 ?a - team)    ; more than 10 food in backpack
-        (food_backpack_gt20 ?a - team)    ; more than 20 food in backpack
+        (3_food_in_backpack ?a - team) ; more than 3 food in backpack
+        (5_food_in_backpack ?a - team)  ; more than 5 food in backpack
+        (10_food_in_backpack ?a - team)    ; more than 10 food in backpack
+        (20_food_in_backpack ?a - team)    ; more than 20 food in backpack
 
         (near_food ?a - current_agent)  ; a food within 4 grid distance 
         (near_capsule ?a - current_agent)   ;a capsule within 4 grid distance
