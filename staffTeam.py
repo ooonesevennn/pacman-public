@@ -216,7 +216,7 @@ class MixedAgent(CaptureAgent):
         myPos = gameState.getAgentPosition(self.index)
         myObj = "a{}".format(self.index)
         cloestFoodDist = self.closestFood(myPos,self.getFood(gameState), gameState.getWalls())
-        if cloestFoodDist <=CLOSE_DISTANCE:
+        if cloestFoodDist != None and cloestFoodDist <=CLOSE_DISTANCE:
             states.append(("near_food",myObj))
 
         # Collect capsule states
