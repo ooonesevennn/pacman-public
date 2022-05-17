@@ -209,7 +209,7 @@ def add_pacman_stuff(maze, max_food=60, max_capsules=4, toskip=0):
     depth += 1
     num_added = 0
     for row in range(1, maze.r-1):
-      for col in range(1+toskip, (maze.c/2)-1):
+      for col in range(1+toskip, (maze.c//2)-1):
         if (row > maze.r-6) and (col < 6): continue
         if maze.grid[row][col] != E: continue
         neighbors = (maze.grid[row-1][col]==E) + (maze.grid[row][col-1]==E) + (maze.grid[row+1][col]==E) + (maze.grid[row][col+1]==E)
