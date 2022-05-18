@@ -5,10 +5,9 @@
     ;remove requirements that are not needed
     (:requirements :strips :typing)
     (:types 
-        enemy1 - enemy
-        enemy2 - enemy
-        ally - team
-        current_agent - team
+        enemy team - object
+        enemy1 enemy2 - enemy
+        ally current_agent - team
     )
 
     ; un-comment following line if constants are needed
