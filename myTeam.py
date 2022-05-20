@@ -445,10 +445,10 @@ class MixedAgent(CaptureAgent):
             if prob and self.trainning:
                 action = random.choice(legalActions)
             else:
+                if self.trainning:
+                    for action in legalActions:
+                        self.updateWeights(gameState, action, rewardFunction, featureFunction, weights,learningRate)
                 for action in legalActions:
-                        if self.trainning:
-                            self.updateWeights(gameState, action, rewardFunction, featureFunction, weights,learningRate)
-                            # print("Agent",self.index," weights:", weights)
                         values.append((self.getQValue(featureFunction(gameState, action), weights), action))
                 action = max(values)[1]
         myPos = gameState.getAgentPosition(self.index)
