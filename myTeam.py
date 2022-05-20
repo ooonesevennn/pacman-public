@@ -570,8 +570,6 @@ class MixedAgent(CaptureAgent):
         # Closest food
         dist = self.closestFood((next_x, next_y), food, walls)
         if dist is not None:
-                # make the distance a number less than one otherwise the update
-                # will diverge wildly
                 features["closest-food"] = dist
 
         # Normalize and return
