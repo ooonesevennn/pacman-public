@@ -5,10 +5,9 @@
     ;remove requirements that are not needed
     (:requirements :strips :typing)
     (:types 
-        enemy1 - enemy
-        enemy2 - enemy
-        ally - team
-        current_agent - team
+        enemy team - object
+        enemy1 enemy2 - enemy
+        ally current_agent - team
     )
 
     ; un-comment following line if constants are needed
@@ -32,10 +31,10 @@
         (enemy_medium_distance ?e - enemy ?a - current_agent) ; noisy distance return longer than 15 
         (enemy_short_distance ?e - enemy ?a - current_agent) ; noisy distance return shorter than 15 
 
-        (food_backpack_gt3 ?a - team) ; more than 3 food in backpack
-        (food_backpack_gt5 ?a - team)  ; more than 5 food in backpack
-        (food_backpack_gt10 ?a - team)    ; more than 10 food in backpack
-        (food_backpack_gt20 ?a - team)    ; more than 20 food in backpack
+        (3_food_in_backpack ?a - team) ; more than 3 food in backpack
+        (5_food_in_backpack ?a - team)  ; more than 5 food in backpack
+        (10_food_in_backpack ?a - team)    ; more than 10 food in backpack
+        (20_food_in_backpack ?a - team)    ; more than 20 food in backpack
 
         (near_food ?a - current_agent)  ; a food within 4 grid distance 
         (near_capsule ?a - current_agent)   ;a capsule within 4 grid distance
@@ -63,69 +62,31 @@
 
     ;define actions here
 
-    (:action go_to_enemy_land
+    (:action attack
         :parameters (?a - current_agent ?e1 - enemy1 ?e2 - enemy2 )
-        :precondition (and (not (is_pacman ?a)) (not (is_pacman ?e1)) (not (is_pacman ?e2)) (not (enemy_around ?e1 ?a)) (not (enemy_around ?e2 ?a))  )
-        :effect (and (is_pacman ?a))
-    )
-
-    (:action chase_enemy_at_home
-        :parameters (?a - current_agent ?e - enemy)
-        :precondition (and 
-            (not (is_pacman ?a))
-            (is_pacman ?e)
-        )
-        :effect (and 
-            (enemy_around ?e ?a)
-        )
-    )
-
-    (:action eat_enemy_at_home
-        :parameters (?a - current_agent ?e - enemy)
-        :precondition (and (not (is_pacman ?a)) (enemy_around ?e ?a) (is_pacman ?e))
-        :effect (and 
-        (not (enemy_around ?e ?a))
-        (not (is_pacman ?e))
-        )
-    )
-
-    (:action fallback
-        :parameters (?a - current_agent ?e - enemy)
-        :precondition (and 
-            (not (is_pacman ?a))
-            (enemy_around ?e ?a)
-            (not (is_pacman ?e))
-        )
-        :effect (and 
-            (is_pacman ?e)
-        )
-    )
-
-    (:action eat_food
-        :parameters (?a - current_agent ?e1 - enemy1 ?e2 - enemy2)
-        :precondition (and (not (enemy_around ?e1 ?a)) (not (is_pacman ?e1)) (not (enemy_around ?e2 ?a)) (not (is_pacman ?e2)) (is_pacman ?a)  (food_available)    )
+        :precondition (and (not (is_pacman ?e1)) (not (is_pacman ?e2)) (food_available)  )
         :effect (and 
             (not (food_available))
-            (food_in_backpack ?a)
         )
     )
+
+    (:action defence
+        :parameters (?a - current_agent ?e - enemy)
+        :precondition (and 
+            (is_pacman ?e)
+            (not (is_pacman ?a))
+        )
+        :effect (and 
+            (not (is_pacman ?e))
+        )
+    )
+
+
     (:action go_home
         :parameters (?a - current_agent)
         :precondition (and (is_pacman ?a) )
         :effect (and 
             (not (is_pacman ?a))
-        )
-    )
-
-    (:action unpack_food
-        :parameters (?a - current_agent)
-        :precondition (and (not (is_pacman ?a)))
-        :effect (and 
-            (not (food_in_backpack ?a))
-            (not (20_food_in_backpack ?a))
-            (not (10_food_in_backpack ?a))
-            (not (5_food_in_backpack ?a))
-            (not (3_food_in_backpack ?a))
         )
     )
 
@@ -135,7 +96,7 @@
             (not (is_pacman ?a))
             (not (is_pacman ?e1))
             (not (is_pacman ?e2))
-            (winning_gt5)
+            (winning_gt10)
         )
         :effect (and 
             (defend_foods)
