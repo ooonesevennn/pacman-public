@@ -164,10 +164,10 @@ class MixedAgent(CaptureAgent):
             self.lowLevelPlan = [] # reset low level plan
             # print("\tPLAN:",self.highLevelPlan)
         if len(self.highLevelPlan)==0:
-            raise Exception("Solver retuned empty plan, you need to think how you handle this situation or how you modify your model ")
-        
-        # Get next action from the plan
-        highLevelAction = self.highLevelPlan[self.currentActionIndex][0].name
+            highLevelAction = 'defence'
+        else:
+            # Get next action from the plan
+            highLevelAction = self.highLevelPlan[self.currentActionIndex][0].name
         MixedAgent.CURRENT_ACTION[self.index] = highLevelAction
         # print("Agent:", self.index, highLevelAction)
 
