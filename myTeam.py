@@ -132,10 +132,11 @@ class MixedAgent(CaptureAgent):
         This function write weights into files after the game is over. 
         You may want to comment (disallow) this function when submit to contest server.
         """
-        print("Write QLWeights:", MixedAgent.QLWeights)
-        file = open(MixedAgent.QLWeightsFile, 'w')
-        file.write(str(MixedAgent.QLWeights))
-        file.close()
+        if self.trainning:
+            print("Write QLWeights:", MixedAgent.QLWeights)
+            file = open(MixedAgent.QLWeightsFile, 'w')
+            file.write(str(MixedAgent.QLWeights))
+            file.close()
     
 
     def chooseAction(self, gameState: GameState):
@@ -162,6 +163,8 @@ class MixedAgent(CaptureAgent):
             self.highLevelPlan: List[Tuple[Action,pddl_state]] = self.getHighLevelPlan(objects, initState,positiveGoal, negtiveGoal) # Plan is a list Action and pddl_state
             self.currentActionIndex = 0
             self.lowLevelPlan = [] # reset low level plan
+            self.currentNegativeGoalStates = negtiveGoal
+            self.currentPositiveGoalStates = positiveGoal
             print("\tPLAN:",self.highLevelPlan)
         if len(self.highLevelPlan)==0:
             raise Exception("Solver retuned empty plan, you need to think how you handle this situation or how you modify your model ")
@@ -316,7 +319,7 @@ class MixedAgent(CaptureAgent):
         return objects, states
     
     def stateSatisfyCurrentPlan(self, init_state: List[Tuple],positiveGoal, negtiveGoal):
-        if self.highLevelPlan is None:
+        if self.highLevelPlan is None or len(self.highLevelPlan) == 0:
             # No plan, need a new plan
             self.currentNegativeGoalStates = negtiveGoal
             self.currentPositiveGoalStates = positiveGoal
