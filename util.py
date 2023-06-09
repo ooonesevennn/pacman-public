@@ -16,6 +16,7 @@ import sys
 import inspect
 import heapq, random
 import io
+from functools import cmp_to_key
 
 
 class FixedRandom:
@@ -294,7 +295,7 @@ class Counter(dict):
         """
         sortedItems = list(self.items())
         compare = lambda x, y:  sign(y[1] - x[1])
-        sortedItems.sort(cmp=compare)
+        sortedItems.sort(key=cmp_to_key(compare))
         return [x[0] for x in sortedItems]
 
     def totalCount(self):
